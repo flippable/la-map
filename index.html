@@ -8,11 +8,11 @@
   <link rel="stylesheet" type="text/css" href="css/tip.css" />
   <link rel="stylesheet" type="text/css" href="css/legend.css" />
   <link rel="stylesheet" type="text/css" href="css/c3.min.css" />
-  <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="http://d3js.org/topojson.v1.min.js"></script>
-  <script src="http://d3js.org/queue.v1.min.js"></script>
-  <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
-  <script src="http://underscorejs.org/underscore-min.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="https://d3js.org/topojson.v1.min.js"></script>
+  <script src="https://d3js.org/queue.v1.min.js"></script>
+  <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
+  <script src="https://underscorejs.org/underscore-min.js"></script>
   <script src="js/d3.geo.zoom.js"></script>
   <script src="js/map.tip.js"></script>
   <script src="js/map.legend.js"></script>
@@ -47,7 +47,7 @@
       .scale(1000)
       .translate([width / 2, height / 2]);
     var path = d3.geo.path().projection(projection);
-	    
+
     //Map container
     var svg = d3.select("#map")
       .append("svg")
@@ -55,13 +55,13 @@
       .attr("width", width)
       .attr("height", height)
       .append("g");
-      
 
-	
+
+
     //Vector group
     var vectors = svg.append("g")
       .attr("class", "polygon");
-      
+
     //Overlay
     vectors.append("rect")
       .attr("class", "overlay")
@@ -84,7 +84,7 @@
     //Load map when downloaded
     function ready(error, json0) {
       if (error) return console.error(error);
-	  
+
       //Polygon features
       var object0 = json0;
 
@@ -107,7 +107,7 @@
         .attr("class", function (d) { return d.properties.d3Css; });
 
 
-    
+
 
 
 
@@ -116,9 +116,9 @@
 
 
 
-  
 
-  
+
+
  </script>
 </body>
 </html>
