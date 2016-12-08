@@ -13,6 +13,7 @@
   <script src="https://d3js.org/queue.v1.min.js"></script>
   <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
   <script src="https://cdn.rawgit.com/jashkenas/underscore/master/underscore-min.js"></script>
+  <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
   <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
   <script src="js/d3.geo.zoom.js"></script>
   <script src="js/map.tip.js"></script>
@@ -28,8 +29,7 @@
   </style>
 </head>
 
-<body style="text-align:center">
-
+<body style="text-align:center" onload="sizeChange()">
   <div id="map"></div>
   <div id="template">
 
@@ -54,14 +54,23 @@
 
 
   <script>
+
+    d3.select(window)
+          .on("resize", sizeChange);
+
     //Basic settings
-    var width = 800;
-    var height = 600;
+    // var width = 800;
+    // var height = 600;
+    var viewportWidth = $(window).width();
+    var viewportHeight = $(window).height()/2;
+    // Need to play around with this
+    var width = viewportWidth * .97;
+    var height = width/1.85;
     var _data = void 0;
 
     //Projection
     var projection = d3.geo.albersUsa()
-      .scale(1000)
+      .scale(1300)
       .translate([width / 2, height / 2]);
     var path = d3.geo.path().projection(projection);
 
@@ -174,7 +183,10 @@
       return template;
     }
 
-
+    function sizeChange() {
+        d3.select("g").attr("transform", "scale(" + $("#map").width()/1300 + ")");
+        $("svg").height($("#map").width()*0.618);
+    }
 
     // Zoom/pan
     function onZoom() {
