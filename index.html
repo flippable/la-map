@@ -2,20 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>testLA</title>
-  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/map.css" />
-  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/color.css" />
-  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/tip.css" />
-  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/legend.css" />
-  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/c3.min.css" />
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script src="https://d3js.org/topojson.v1.min.js"></script>
-  <script src="https://d3js.org/queue.v1.min.js"></script>
-  <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
-  <script src="https://cdn.rawgit.com/jashkenas/underscore/master/underscore-min.js"></script>
-  <script src="https://cdn.rawgit.com/flippable/la-map/master/js/map.tip.js"></script>
-  <script src="https://cdn.rawgit.com/flippable/la-map/master/js/map.legend.js"></script>
-  <script src="https://cdn.rawgit.com/flippable/la-map/master/js/c3.min.js"></script>
+  <title>lousiana-5</title>
+  <link rel="stylesheet" type="text/css" href="css/map.css" />
+  <link rel="stylesheet" type="text/css" href="css/color.css" />
+  <link rel="stylesheet" type="text/css" href="css/tip.css" />
+  <link rel="stylesheet" type="text/css" href="css/legend.css" />
+  <link rel="stylesheet" type="text/css" href="css/c3.min.css" />
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
+  <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+  <script src="http://underscorejs.org/underscore-min.js"></script>
+  <script src="js/d3.geo.zoom.js"></script>
+  <script src="js/map.tip.js"></script>
+  <script src="js/map.legend.js"></script>
+  <script src="js/c3.min.js"></script>
   <style type="text/css">
       body {
           font-family: sans-serif;
@@ -28,13 +29,31 @@
 
 <body style="text-align:center">
 
-  <div id="map">
-</div>
-<div id="template" style="display: none">
-  <!--Tooltip template-->
-</div>
-<script>
-  //Basic settings
+  <div id="map"></div>
+  <div id="template">
+
+    <!--Preview template-->
+    <div id="flippable" style="display: none;">
+      <div class="votes">{votes_needed}</div>
+      <div class="votes-label">votes to flip</div>
+    </div>
+    <!--Tooltip template-->
+    <div id="more-info" style="display: none">
+      <table>
+        <tr><td>Precinct: </td><td>{precinct}</td></tr>
+        <!-- <tr><td>County: </td><td>{county}</td></tr> -->
+        <tr><td>Parish: </td><td>{parish_name}</td></tr>
+        <tr><td>Bill Cassidy (R): </td><td>{rep_votes}</td></tr>
+        <tr><td>Mary Landrieu (D): </td><td>{dem_votes}</td></tr>
+        <tr><td>Total Precinct votes: </td><td>{total_votes}</td></tr>
+        <tr><td>Votes needed to flip: </td><td>{votes_needed}</td></tr>
+      </table>
+    </div>
+  </div>
+
+
+  <script>
+    //Basic settings
     var width = 800;
     var height = 600;
     var _data = void 0;
@@ -53,7 +72,9 @@
       .attr("height", height)
       .append("g");
 
-
+    svg.call(d3.behavior.zoom()
+      .scaleExtent([1, 40])
+      .on("zoom", onZoom));
 
     //Vector group
     var vectors = svg.append("g")
@@ -65,7 +86,16 @@
       .attr("width", width)
       .attr("height", height);
 
+    //Define 'div' for tooltips
+    var tip = d3.tip()
+      .attr("class", "d3-tip")
+      .direction("c");
+    vectors.call(tip);
 
+    var previewTip = d3.tip()
+      .attr("class", "d3-tip")
+      .direction("c");
+    vectors.call(previewTip);
 
     //Vector polygons
     var vectors0 = vectors.append("g");
@@ -74,17 +104,17 @@
 
     //Download
     queue(2)
-      .defer(d3.json, "https://cdn.rawgit.com/flippable/la-map/master/json/senatedistrictslaLEGIS2003.json")
-
+      .defer(d3.json, "json/2014-la-gen.json")
+      .defer(d3.csv, "data/info.csv")
       .await(ready);
 
     //Load map when downloaded
-    function ready(error, json0) {
+    function ready(error, json0, data) {
       if (error) return console.error(error);
 
       //Polygon features
       var object0 = json0;
-
+      var previewTemplate = document.getElementById("flippable").innerHTML;
 
       // Refine projection
       var b, s, t;
@@ -99,10 +129,61 @@
       vector0 = vectors0.selectAll("path").data(object0.features);
       vector0.enter()
         .append("path")
-        .attr("id", function (d) { return d.properties.DISTRICT; })
+        .attr("id", function (d) { return d.properties.OBJECTID; })
         .attr("d", path)
-        .attr("class", function (d) { return d.properties.d3Css; });
+        .attr("class", function (d) { return d.properties.d3Css; })
+        .on("mouseover", function (d) {
+          var obj = _.findWhere(_data, {OBJECTID: d.properties.OBJECTID.toString()});
+          previewTip.html(previewTemplate.replace("{votes_needed}", obj["votes_needed"]));
+          tip.attr('class', 'd3-tip').hide();
+          return previewTip.show(d).attr('class', 'd3-tip animate');
+        })
+        .on("mouseout", function (d) { return previewTip.hide().attr('class', 'd3-tip'); })
+        .on("click", function (d) { previewTip.hide(); return showTip(d.properties.OBJECTID); });
+
+
+      _data = data;
+
+
+      var legend = d3.legend(svg)
+        .csv("data/legend.csv")
+        .position(1)
+        .shape(RECT);
+      svg.call(legend);
     }
-  </script>
+
+    // Show a tool tip for the selected element
+    function showTip(id) {
+      var obj = _.findWhere(_data, {OBJECTID: id.toString()});
+      tip.html(info(obj))
+        .attr('class', 'd3-tip animate')
+        .show();
+
+      d3.event.stopPropagation();
+    }
+
+    // Get the tool tip data from the template
+    function info(obj) {
+      var template = document.getElementById("more-info").innerHTML;
+
+      Object.keys(obj).forEach(function(key){
+        template = template.replace("{" + key + "}", obj[key]);
+      });
+
+      return template;
+    }
+
+
+
+    // Zoom/pan
+    function onZoom() {
+      tip.hide();
+      previewTip.hide();
+      vectors.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+      vector0.style("stroke-width", 0.1 / d3.event.scale);
+
+    }
+
+ </script>
 </body>
 </html>
