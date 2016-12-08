@@ -27,6 +27,15 @@
           text-size-adjust: 100%;
       }
   </style>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-88761601-1', 'auto');
+    ga('send', 'pageview');
+  </script>
 </head>
 
 <body style="text-align:center" onload="sizeChange()">
@@ -149,7 +158,7 @@
           return previewTip.show(d).attr('class', 'd3-tip animate');
         })
         .on("mouseout", function (d) { return previewTip.hide().attr('class', 'd3-tip'); })
-        .on("click", function (d) { previewTip.hide(); return showTip(d.properties.OBJECTID); });
+        .on("click", function (d) { previewTip.hide(); handleMapClicks(d); return showTip(d.properties.OBJECTID); });
 
 
       _data = data;
@@ -160,6 +169,14 @@
         .position(1)
         .shape(RECT);
       svg.call(legend);
+    }
+
+    function handleMapClicks(d) {
+      ga('send', 'event', {
+        eventCategory: 'Lousiana map click',
+        eventAction: (d.properties.precinct + '-' + d.properties.county),
+        eventLabel: d.properties.OBJECTID
+      });
     }
 
     // Show a tool tip for the selected element
