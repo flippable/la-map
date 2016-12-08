@@ -92,7 +92,7 @@
 
     //Download
     queue(2)
-      .defer(d3.json, "json/2014full.json")
+      .defer(d3.json, "json/2014-la-gen.json")
       .defer(d3.csv, "data/info.csv")
       .await(ready);
 
