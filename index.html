@@ -30,24 +30,32 @@
 <body style="text-align:center">
 
   <div id="map"></div>
-  <div id="template" style="display: none">
+  <div id="template">
+
+    <!--Preview template-->
+    <div id="flippable" style="display: none;">
+      <div class="votes">{votes_needed}</div>
+      <div class="votes-label">votes to flip</div>
+    </div>
     <!--Tooltip template-->
-<table>
-<tr><td>Precinct: </td><td>{precinct}</td></tr>
-<!-- <tr><td>County: </td><td>{county}</td></tr> -->
-<tr><td>Parish: </td><td>{parish_name}</td></tr>
-<tr><td>Bill Cassidy (R): </td><td>{rep_votes}</td></tr>
-<tr><td>Mary Landrieu (D): </td><td>{dem_votes}</td></tr>
-<tr><td>Total Precinct votes: </td><td>{total_votes}</td></tr>
-<tr><td>Votes needed to flip: </td><td>{votes_needed}</td></tr>
-</table>
+    <div id="more-info" style="display: none">
+      <table>
+        <tr><td>Precinct: </td><td>{precinct}</td></tr>
+        <!-- <tr><td>County: </td><td>{county}</td></tr> -->
+        <tr><td>Parish: </td><td>{parish_name}</td></tr>
+        <tr><td>Bill Cassidy (R): </td><td>{rep_votes}</td></tr>
+        <tr><td>Mary Landrieu (D): </td><td>{dem_votes}</td></tr>
+        <tr><td>Total Precinct votes: </td><td>{total_votes}</td></tr>
+        <tr><td>Votes needed to flip: </td><td>{votes_needed}</td></tr>
+      </table>
+    </div>
   </div>
 
 
   <script>
     //Basic settings
-    var width = 400;
-    var height = 300;
+    var width = 800;
+    var height = 600;
     var _data = void 0;
 
     //Projection
@@ -55,24 +63,23 @@
       .scale(1000)
       .translate([width / 2, height / 2]);
     var path = d3.geo.path().projection(projection);
-	    
+
     //Map container
     var svg = d3.select("#map")
       .append("svg")
       .attr("id", "mapSvg")
       .attr("width", width)
       .attr("height", height)
-      .on("click", hideTip)
       .append("g");
-      
+
     svg.call(d3.behavior.zoom()
       .scaleExtent([1, 40])
       .on("zoom", onZoom));
-	
+
     //Vector group
     var vectors = svg.append("g")
       .attr("class", "polygon");
-      
+
     //Overlay
     vectors.append("rect")
       .attr("class", "overlay")
@@ -84,6 +91,11 @@
       .attr("class", "d3-tip")
       .direction("c");
     vectors.call(tip);
+
+    var previewTip = d3.tip()
+      .attr("class", "d3-tip")
+      .direction("c");
+    vectors.call(previewTip);
 
     //Vector polygons
     var vectors0 = vectors.append("g");
@@ -99,10 +111,10 @@
     //Load map when downloaded
     function ready(error, json0, data) {
       if (error) return console.error(error);
-	  
+
       //Polygon features
       var object0 = json0;
-
+      var previewTemplate = document.getElementById("flippable").innerHTML;
 
       // Refine projection
       var b, s, t;
@@ -120,13 +132,19 @@
         .attr("id", function (d) { return d.properties.OBJECTID; })
         .attr("d", path)
         .attr("class", function (d) { return d.properties.d3Css; })
-        .on("click", function (d) { return showTip(d.properties.OBJECTID); });
+        .on("mouseover", function (d) {
+          var obj = _.findWhere(_data, {OBJECTID: d.properties.OBJECTID.toString()});
+          previewTip.html(previewTemplate.replace("{votes_needed}", obj["votes_needed"]));
+          tip.attr('class', 'd3-tip').hide();
+          return previewTip.show(d).attr('class', 'd3-tip animate');
+        })
+        .on("mouseout", function (d) { return previewTip.hide().attr('class', 'd3-tip'); })
+        .on("click", function (d) { previewTip.hide(); return showTip(d.properties.OBJECTID); });
 
 
-    
       _data = data;
 
-      
+
       var legend = d3.legend(svg)
         .csv("data/legend.csv")
         .position(1)
@@ -138,39 +156,34 @@
     function showTip(id) {
       var obj = _.findWhere(_data, {OBJECTID: id.toString()});
       tip.html(info(obj))
+        .attr('class', 'd3-tip animate')
         .show();
 
-        
-      
       d3.event.stopPropagation();
     }
-    
+
     // Get the tool tip data from the template
     function info(obj) {
-      var template = document.getElementById("template").innerHTML;
-      
+      var template = document.getElementById("more-info").innerHTML;
+
       Object.keys(obj).forEach(function(key){
         template = template.replace("{" + key + "}", obj[key]);
       });
-    
+
       return template;
     }
-    
-    // Hide the tooltip
-    function hideTip() {
-      tip.hide();
-    }
 
 
-  
-    // Zoom/pan 
+
+    // Zoom/pan
     function onZoom() {
-      hideTip();
+      tip.hide();
+      previewTip.hide();
       vectors.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
       vector0.style("stroke-width", 0.1 / d3.event.scale);
 
     }
-  
+
  </script>
 </body>
 </html>
