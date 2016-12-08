@@ -180,8 +180,8 @@
             // get the legend grouping node 
             var g = obj[0][0].getBoundingClientRect();
 
-            console.log(s);
-            console.log(g);
+            // console.log(s);
+            // console.log(g);
 
             // default state
             var x = margin();
