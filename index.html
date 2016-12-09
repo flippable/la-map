@@ -50,13 +50,13 @@
     <!--Tooltip template-->
     <div id="more-info" style="display: none">
       <table>
-        <tr><td>Precinct: </td><td>{precinct}</td></tr>
+        <tr><td>Precinct: </td><td><strong>{precinct}</strong></td></tr>
         <!-- <tr><td>County: </td><td>{county}</td></tr> -->
-        <tr><td>Parish: </td><td>{parish_name}</td></tr>
-        <tr><td>Bill Cassidy (R): </td><td>{rep_votes}</td></tr>
-        <tr><td>Mary Landrieu (D): </td><td>{dem_votes}</td></tr>
-        <tr><td>Total Precinct votes: </td><td>{total_votes}</td></tr>
-        <tr><td>Votes needed to flip: </td><td>{votes_needed}</td></tr>
+        <tr><td>Parish: </td><td><strong>{parish_name}</strong></td></tr>
+        <tr><td>Bill Cassidy (R): </td><td><strong>{rep_votes}</strong></td></tr>
+        <tr><td>Mary Landrieu (D): </td><td><strong>{dem_votes}</strong></td></tr>
+        <tr><td>Total Precinct votes: </td><td><strong>{total_votes}</strong></td></tr>
+        <tr><td>Votes needed to flip: </td><td><strong>{votes_needed}</strong></td></tr>
       </table>
     </div>
   </div>
@@ -112,7 +112,7 @@
     vectors.call(tip);
 
     var previewTip = d3.tip()
-      .attr("class", "d3-tip")
+      .attr("class", "d3-preview-tip")
       .direction("c");
     vectors.call(previewTip);
 
@@ -155,10 +155,10 @@
           var obj = _.findWhere(_data, {OBJECTID: d.properties.OBJECTID.toString()});
           previewTip.html(previewTemplate.replace("{votes_needed}", obj["votes_needed"]));
           tip.attr('class', 'd3-tip').hide();
-          return previewTip.show(d).attr('class', 'd3-tip animate');
+          return previewTip.show(d).attr('class', 'd3-preview-tip animate ' + d.properties.d3Css);
         })
-        .on("mouseout", function (d) { return previewTip.hide().attr('class', 'd3-tip'); })
-        .on("click", function (d) { previewTip.hide(); handleMapClicks(d); return showTip(d.properties.OBJECTID); });
+        .on("mouseout", function (d) { return previewTip.attr('class', 'd3-preview-tip').hide(); })
+        .on("click", function (d) { previewTip.attr('class', 'd3-preview-tip').hide(); handleMapClicks(d); return showTip(d); });
 
 
       _data = data;
@@ -180,10 +180,10 @@
     }
 
     // Show a tool tip for the selected element
-    function showTip(id) {
-      var obj = _.findWhere(_data, {OBJECTID: id.toString()});
+    function showTip(d) {
+      var obj = _.findWhere(_data, {OBJECTID: d.properties.OBJECTID.toString()});
       tip.html(info(obj))
-        .attr('class', 'd3-tip animate')
+        .attr('class', 'd3-tip  animate ' + d.properties.d3Css)
         .show();
 
       d3.event.stopPropagation();
