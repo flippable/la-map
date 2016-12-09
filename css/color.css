@@ -1,7 +1,15 @@
 #mapSvg{background-color: #ffffff;}
-.l0r0 { stroke: #000000; stroke-width: 0.1; stroke-opacity: 1.0; stroke-dasharray: ; fill: #f7fbff; fill-opacity: 1.0; }
-.l0r1 { stroke: #000000; stroke-width: 0.1; stroke-opacity: 1.0; stroke-dasharray: ; fill: #c7dcef; fill-opacity: 1.0; }
-.l0r2 { stroke: #000000; stroke-width: 0.1; stroke-opacity: 1.0; stroke-dasharray: ; fill: #72b2d7; fill-opacity: 1.0; }
-.l0r3 { stroke: #000000; stroke-width: 0.1; stroke-opacity: 1.0; stroke-dasharray: ; fill: #2878b8; fill-opacity: 1.0; }
-.l0r4 { stroke: #000000; stroke-width: 0.1; stroke-opacity: 1.0; stroke-dasharray: ; fill: #08306b; fill-opacity: 1.0; }
-.l0r5 { stroke: #000000; stroke-width: 0.1; stroke-opacity: 1.0; stroke-dasharray: ; fill: #ffffff; fill-opacity: 1.0; }
+.l0r0 { stroke: #FFFFFF; stroke-width: 0.2; stroke-opacity: 1.0; stroke-dasharray: ; fill: #2c7bb6; fill-opacity: 1.0; }
+.l0r1 { stroke: #ffffff; stroke-width: 0.2; stroke-opacity: 1.0; stroke-dasharray: ; fill: #abd9e9; fill-opacity: 1.0; }
+.l0r2 { stroke: #ffffff; stroke-width: 0.2; stroke-opacity: 1.0; stroke-dasharray: ; fill: #ffffbf; fill-opacity: 1.0; }
+.l0r3 { stroke: #ffffff; stroke-width: 0.2; stroke-opacity: 1.0; stroke-dasharray: ; fill: #fdae61; fill-opacity: 1.0; }
+.l0r4 { stroke: #ffffff; stroke-width: 0.2; stroke-opacity: 1.0; stroke-dasharray: ; fill: #d7191c; fill-opacity: 1.0; }
+.l0r5 { stroke: #ffffff; stroke-width: 0.2; stroke-opacity: 1.0; stroke-dasharray: ; fill: #ffffff; fill-opacity: 1.0; }
+
+.d3-tip.animate.l0r0, .d3-preview-tip.animate.l0r0 { border-color: #2c7bb6; }
+.d3-tip.animate.l0r1, .d3-preview-tip.animate.l0r1 { border-color: #abd9e9; }
+.d3-tip.animate.l0r2, .d3-preview-tip.animate.l0r2 { border-color: #ffffbf; }
+.d3-tip.animate.l0r3, .d3-preview-tip.animate.l0r3 { border-color: #fdae61; }
+.d3-tip.animate.l0r4, .d3-preview-tip.animate.l0r4 { border-color: #d7191c; }
+.d3-tip.animate.l0r5, .d3-preview-tip.animate.l0r5 { border-color: #ffffff; }
+path:hover { stroke-width: 0.9; }
