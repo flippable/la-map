@@ -42,7 +42,7 @@
   </script>
 </head>
 
-<body style="text-align:center" onload="sizeChange()">
+<body style="text-align:center">
   <div id="map"></div>
   <div id="template">
 
@@ -68,8 +68,8 @@
 
   <script>
 
-    d3.select(window)
-          .on("resize", sizeChange);
+    // d3.select(window)
+    //       .on("resize", sizeChange);
 
           var width, height;
           var viewportWidth = $(window.outerWidth)[0];
@@ -220,10 +220,10 @@
       return template;
     }
 
-    function sizeChange() {
-        d3.select("g").attr("transform", "scale(" + $("#map").width()/1300 + ")");
-        $("svg").height($("#map").width()*0.618);
-    }
+    // function sizeChange() {
+    //     d3.select("g").attr("transform", "scale(" + $("#map").width()/1300 + ")");
+    //     $("svg").height($("#map").width()*0.618);
+    // }
 
     // Zoom/pan
     function onZoom() {

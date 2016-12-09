@@ -5,7 +5,7 @@ h1{
 #mapSvg {
   border-style: solid;
   border-width: 0px;
-  border-color: #fff;
+  border-color: #000;
   overflow: hidden;
 }
 .polygon {
