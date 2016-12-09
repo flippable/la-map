@@ -26,6 +26,10 @@
           -ms-text-size-adjust: 100%;
           text-size-adjust: 100%;
       }
+      #map {
+       /*width: 50%;*/
+       margin: 0 auto;
+     }
   </style>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -67,14 +71,30 @@
     d3.select(window)
           .on("resize", sizeChange);
 
+          var width, height;
+          var viewportWidth = $(window.outerWidth)[0];
+          // var viewportHeight = $(window.outerHeight)[0] / 2;
+          console.log(viewportWidth);
+          if (viewportWidth <= 767) {
+            width = 700;
+            height = 500;
+          }
+          else {
+            // Need to play around with this
+            width = $(window).width() * .97;
+            height = width/1.85;
+          }
+          console.log('viewportWidth', viewportWidth, 'width', width);
+
     //Basic settings
     // var width = 800;
     // var height = 600;
-    var viewportWidth = $(window).width();
-    var viewportHeight = $(window).height()/2;
-    // Need to play around with this
-    var width = viewportWidth * .97;
-    var height = width/1.85;
+    // var viewportWidth = $(window).width();
+    // var viewportHeight = $(window).height()/2;
+    //
+    // // Need to play around with this
+    // var width = viewportWidth * .97;
+    // var height = width/1.85;
     var _data = void 0;
 
     //Projection
@@ -164,11 +184,11 @@
       _data = data;
 
 
-      var legend = d3.legend(svg)
-        .csv("data/legend.csv")
-        .position(1)
-        .shape(RECT);
-      svg.call(legend);
+      // var legend = d3.legend(svg)
+      //   .csv("data/legend.csv")
+      //   .position(1)
+      //   .shape(RECT);
+      // svg.call(legend);
     }
 
     function handleMapClicks(d) {
