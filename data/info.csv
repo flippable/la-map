@@ -3768,8 +3768,8 @@ C21,22079,Rapides,157,563,720,87,2578
 3-7,22033,East Baton Rouge,642,228,870,105,905
 3-8,22033,East Baton Rouge,137,690,827,100,790
 3-9,22033,East Baton Rouge,848,272,1120,135,837
-5,22035,East Carroll,null,null,null,null,975
-14,22035,East Carroll,null,null,null,null,973
+5,22035,East Carroll,0,2,2,0,975
+14,22035,East Carroll,8,71,79,10,973
 7B,22037,East Feliciana,17,24,41,4,14581
 7C,22037,East Feliciana,4,0,4,0,14585
 7D,22037,East Feliciana,18,6,24,2,14586
@@ -3779,7 +3779,7 @@ C21,22079,Rapides,157,563,720,87,2578
 5A,22049,Jackson,35,2,37,4,1233
 6A,22049,Jackson,0,26,26,3,4003
 8A,22049,Jackson,18,5,23,2,1222
-ZZZZZZ,22051,Jefferson,null,null,null,null,1292
+ZZZZZZ,22051,Jefferson,0,0,0,0,1292
 85,22055,Lafayette,1064,186,1250,151,1610
 87,22055,Lafayette,1362,222,1584,191,1604
 95,22055,Lafayette,1143,186,1329,160,1584
@@ -3793,10 +3793,10 @@ ZZZZZZ,22051,Jefferson,null,null,null,null,1292
 1-13,22069,Natchitoches,8,212,220,26,1950
 1-14,22069,Natchitoches,7,103,110,13,1941
 3-10,22069,Natchitoches,39,13,52,6,1945
-ZZZZZZ,22071,Orleans,null,null,null,null,2120
-2-2,22075,Plaquemines,null,null,null,null,16175
-4-2,22075,Plaquemines,null,null,null,null,16176
-5-2,22075,Plaquemines,null,null,null,null,16186
+ZZZZZZ,22071,Orleans,0,0,0,0,2120
+2-2,22075,Plaquemines,0,0,0,0,16175
+4-2,22075,Plaquemines,0,0,0,0,16176
+5-2,22075,Plaquemines,0,0,0,0,16186
 N1,22079,Rapides,57,34,91,11,2527
 N2,22079,Rapides,68,150,218,26,2486
 N3,22079,Rapides,115,137,252,30,2517
@@ -3815,12 +3815,12 @@ S6B,22079,Rapides,39,25,64,7,12633
 S7,22079,Rapides,318,35,353,42,2504
 S8,22079,Rapides,500,94,594,71,2484
 S9,22079,Rapides,7,34,41,4,2557
-2-7,22089,St. Charles,null,null,null,null,12639
-3-4,22089,St. Charles,null,null,null,null,2711
-3-6,22089,St. Charles,null,null,null,null,2718
-6-3,22089,St. Charles,null,null,null,null,2724
-6-5,22089,St. Charles,null,null,null,null,2732
-ZZZZZZ,22089,St. Charles,null,null,null,null,2722
-ZZZZZZ,22095,St. John the Baptist,null,null,null,null,2787
-ZZZZZZ,22103,St. Tammany,null,null,null,null,3004
+2-7,22089,St. Charles,0,0,0,0,12639
+3-4,22089,St. Charles,0,0,0,0,2711
+3-6,22089,St. Charles,0,0,0,0,2718
+6-3,22089,St. Charles,0,0,0,0,2724
+6-5,22089,St. Charles,0,0,0,0,2732
+ZZZZZZ,22089,St. Charles,0,0,0,0,2722
+ZZZZZZ,22095,St. John the Baptist,0,0,0,0,2787
+ZZZZZZ,22103,St. Tammany,0,0,0,0,3004
 1,22113,Vermilion,385,60,445,53,3414
