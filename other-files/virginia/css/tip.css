@@ -32,9 +32,9 @@
 }
 
 .d3-preview-tip {
-  width: 200px;
-  height: 150px;
-}
+  width: 150px;
+/*  height: 150px;
+*/}
 
 /* Creates a small triangle extender for the tooltip */
 .d3-preview-tip.c.q1:before, .d3-preview-tip.c.q4:before{
@@ -73,7 +73,7 @@
 
 .d3-preview-tip .district {
   font-family: "proxima-nova";
-  font-size: 1em;
+  font-size: 1.5em;
   margin-top: .5em;
   margin-bottom: .5em;
   text-align: center;
@@ -81,7 +81,7 @@
 
 .d3-preview-tip .outcome {
   text-align: center;
-  font-size: 1.5em;
+  font-size: 1.0em;
   font-weight: bold;
   margin-bottom: 1.0em;
 }
