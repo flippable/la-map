@@ -3,17 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <title>virginia-4</title>
-  <link rel="stylesheet" type="text/css" href="css/map.css" />
-  <!-- include map css hardcoded -->
-  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/map.css" /> -->
-  <link rel="stylesheet" type="text/css" href="css/color.css" />
-  <!-- include color css hardcoded -->
-  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/color1.css" /> -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/other-files/v-4/css/map.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/other-files/v-4/css/color.css" />
   <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/other-files/virginia/css/tip.css" />
-  <!-- do not include legend? -->
-  <!-- <link rel="stylesheet" type="text/css" href="css/legend.css" /> -->
   <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/legend.css" />
-  <!-- <link rel="stylesheet" type="text/css" href="css/c3.min.css" /> -->
   <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/c3.min.css" />
   <script src="https://d3js.org/d3.v3.min.js"></script>
   <script src="https://d3js.org/topojson.v1.min.js"></script>
@@ -21,8 +14,6 @@
   <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
   <script src="https://cdn.rawgit.com/jashkenas/underscore/master/underscore-min.js"></script>
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
-  <!-- do not need zoom -->
-  <!--<script src="js/d3.geo.zoom.js"></script>-->
   <script src="https://cdn.rawgit.com/flippable/la-map/master/js/map.tip.js"></script>
   <script src="https://cdn.rawgit.com/flippable/la-map/master/js/map.legend.js"></script>
   <script src="https://cdn.rawgit.com/flippable/la-map/master/js/c3.min.js"></script>
@@ -42,12 +33,10 @@
   <div id="map"></div>
   <div id="template">
 
-    <!--Preview template-->
     <div id="flippable" style="display: none;">
       <div class="district">District {DISTRICT_N}</div>
       <div class="outcome">{table_text}</div>
-      <!-- <div class="link">(Click district for candidate info)</div>
- -->    </div>
+     </div>
   </div>
 
 
@@ -63,7 +52,7 @@
           // var viewportHeight = $(window.outerHeight)[0] / 2;
           console.log(viewportWidth);
           if (viewportWidth <= 767) {
-            width = $(window).width();
+            width = $(window).width() * 0.97;
             height = width/1.85;
           }
           else {
@@ -93,7 +82,7 @@
     //   .scale(1300)
     //   .translate([width / 2, height / 2]);
     // var path = d3.geo.path().projection(projection);
-	    
+      
     //Map container
     var svg = d3.select("#map")
       .append("svg")
@@ -108,7 +97,7 @@
     //   .scaleExtent([1, 12])
     //   .on("zoom", onZoom));
       
-	
+  
     //Vector group
     var vectors = svg.append("g")
       .attr("class", "polygon");
@@ -137,8 +126,8 @@
 
     //Download
     queue(2)
-      .defer(d3.json, "json/2015FinalLegClean.json")
-      .defer(d3.csv, "data/info.csv")
+      .defer(d3.json, "https://cdn.rawgit.com/flippable/la-map/master/other-files/virginia/json/2015FinalLegClean.json")
+      .defer(d3.csv, "https://cdn.rawgit.com/flippable/la-map/master/other-files/virginia/data/info.csv")
       .await(ready);
 
     //Load map when downloaded
@@ -169,7 +158,6 @@
           var obj = _.findWhere(_data, {OBJECTID: d.properties.OBJECTID.toString()});
           previewTip.html(infoMore(obj, previewTemplate));
           tip.attr('class', 'd3-tip').hide();
-          console.log('D: ', d);
           return previewTip.show(d).attr('class', 'd3-preview-tip animate ' + d.properties.d3Css);
         })
         .on("mouseout", function (d) {console.log('mouseout: ', d); return previewTip.attr('class', 'd3-preview-tip').hide(); })

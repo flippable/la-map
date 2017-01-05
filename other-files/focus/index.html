@@ -4,7 +4,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/other-files/v-4/css/map.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/other-files/v-4/css/color.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/css/tip.css" />
+    <link rel="stylesheet" type="text/css" href="css/tip.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/legend.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/css/c3.min.css" />
     <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -45,8 +45,16 @@
 
         <!--Preview template-->
         <div id="flippable" style="display: none;">
-            <div class="state">{name}</div>
-            <div class="trifecta">{trifecta}</div>
+            <div class="year">{name} - {year}</div>
+            <div class="sub">Race priorities:</div>
+            <div class="priorities">{governor}</div>
+            <div class="priorities">{state-senate}</div>
+            <div class="priorities">{state-house}</div>
+<!--             <div class="sub">Republican Marjority Margins:</div>
+            <div class="margins">State Senate: {senate-margin}</div>
+            <div class="margins">State House: {state-margin}</div>
+            <div class="sub">Notes:</div>
+            <div class="notes">{notes}</div> -->
             <!-- <div class="link">(Click district for candidate info)</div>
  --></div>
     </div>
@@ -77,12 +85,6 @@
 
         var path = d3.geo.path()
             .projection(projection);
-
-        // Define linear scale for output
-        // var color = d3.scale.linear()
-        //   .range(["rgb(213,222,217)", "rgb(69,173,168)", "rgb(84,36,55)", "rgb(217,91,67)"]);
-
-        // var legendText = ["Cities Lived", "States Lived", "States Visited", "Nada"];
 
 
         var svg = d3.select("#map")
@@ -132,11 +134,11 @@
         // var vector0 = void 0;
 
         var g = svg.append("g");
-
-        d3.json("https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/us.json", function(unitedState) {
+        // https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/us.json
+        d3.json("us.json", function(unitedState) {
             var data = topojson.feature(unitedState, unitedState.objects.states).features;
             // console.log('geojson: ', data);
-            d3.csv("https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/us-state-names.csv", function(statesData) {
+            d3.csv("focus-data.csv", function(statesData) {
                 // console.log('statesData: ', statesData);
                 var names = {};
                 data.forEach(function(d, i) {
@@ -162,32 +164,35 @@
                     .attr("stroke", "white")
                     .attr("fill", function(d) {
                         // console.log(d);
-                        if (d.properties.trifecta == 'Democratic Trifecta') {
-                            return "blue";
-                        } else if (d.properties.trifecta == 'Republican Trifecta') {
-                            return "red";
+                        if (d.properties.year == '2018') {
+                            return "#0868AC";
+                        } else if (d.properties.year == '2017') {
+                            return "#4EB3D3";
                         } else {
                             return "grey";
                         }
                     })
                     .attr("class", "states")
                     .on("mouseover", function(d) {
-                        var obj = _.findWhere(data, {
-                            id: d.id
-                        });
-                        var thisColor;
-                        if (d.properties.trifecta == 'Democratic Trifecta') {
-                            thisColor = "blue";
-                        } else if (d.properties.trifecta == 'Republican Trifecta') {
-                            thisColor = "red";
-                        } else {
-                            thisColor = "grey";
-                        }
-                        previewTip.html(infoMore(obj, previewTemplate));
-                        tip.attr('class', 'd3-tip').hide();
-                        return previewTip.show(d)
-                            .attr('class', 'd3-preview-tip animate ' + d.properties.d3Css)
-                            .style('color', thisColor);
+                      if (d.properties.year) {
+                          var obj = _.findWhere(data, {
+                              id: d.id
+                          });
+                          var thisColor;
+                          if (d.properties.year == '2018') {
+                              thisColor = "#0868AC";
+                          } else if (d.properties.year == '2017') {
+                              thisColor = "#4EB3D3";
+                          } else {
+                              thisColor = "grey";
+                          }
+                          previewTip.html(infoMore(obj, previewTemplate));
+                          tip.attr('class', 'd3-tip').hide();
+                          return previewTip.show(d)
+                              .attr('class', 'd3-preview-tip animate ' + d.properties.d3Css)
+                              .style('color', thisColor);
+                            }
+                            else return;
                     })
                     .on("mouseout", function(d) {
                         return previewTip.attr('class', 'd3-preview-tip').hide();
