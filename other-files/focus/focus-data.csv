@@ -6,7 +6,7 @@ id,code,name,year,governor,state-senate,state-house,senate-margin,state-margin,n
 6,CA,California,,,,,,,
 8,CO,Colorado,2018,Governor,State Senate,State House,1,-9,Need to protect 1 seat in the Senate and flip 9 in the House.
 9,CT,Connecticut,2018,,State Senate,State House,0,-7,
-10,DE,Delaware,,,,,,,
+10,DE,Delaware,2018,,State Senate,,,,
 11,DC,District of Columbia,,,,,,,
 12,FL,Florida,2018,Governor,State Senate,,10,38,
 13,GA,Georgia,2018,Governor,,,20,56,
@@ -36,7 +36,7 @@ id,code,name,year,governor,state-senate,state-house,senate-margin,state-margin,n
 38,ND,North Dakota,,,,,,,
 39,OH,Ohio,2018,Governor,State Senate,,15,33,
 40,OK,Oklahoma,,,,,,,
-41,OR,Oregon,,,,,,,
+41,OR,Oregon,2018,,State Senate,,,,
 42,PA,Pennsylvania,2018,Governor,State Senate,,18,41,
 44,RI,Rhode Island,,,,,,,
 45,SC,South Carolina,,,,,,,
