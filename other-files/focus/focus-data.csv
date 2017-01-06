@@ -32,7 +32,7 @@ id,code,name,year,governor,state-senate,state-house,senate-margin,state-margin,n
 34,NJ,New Jersey,2017,Governor,,,-8,-24,Focus on winning gubernatorial seat
 35,NM,New Mexico,,,,,,,
 36,NY,New York,2018,,State Senate,,-1,-64,
-37,NC,North Carolina,2017,,,State House,20,28,Redistricting
+37,NC,North Carolina,2017,,State Senate,State House,20,28,Redistricting
 38,ND,North Dakota,,,,,,,
 39,OH,Ohio,2018,Governor,State Senate,,15,33,
 40,OK,Oklahoma,,,,,,,
