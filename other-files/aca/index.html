@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-styles/aca/tip.css" />
+    <link rel="stylesheet" type="text/css" href="css/tip.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-styles/aca/tip.css" /> -->
     <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-core/css/map.css" />
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
@@ -120,12 +121,9 @@
 
         var g = svg.append("g");
 
-        d3.json("https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/us.json", function(unitedState) {
+        d3.json("https://s3-us-west-2.amazonaws.com/flippable/d3-core/spatial-jsons/us.json", function(unitedState) {
             var data = topojson.feature(unitedState, unitedState.objects.states).features;
-            // console.log('geojson: ', data);
-            // https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/us-state-names.csv
-            d3.csv("us-state-names.csv", function(statesData) {
-                // console.log('statesData: ', statesData);
+            d3.csv("data/us-state-names.csv", function(statesData) {
                 var names = {};
                 data.forEach(function(d, i) {
                     statesData.forEach(function(f, i) {

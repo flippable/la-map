@@ -2,16 +2,14 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/other-files/v-4/css/map.css" />
-      <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-styles/our-plan/tip.css" />
-      <!-- <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-core/css/c3.min.css" /> -->
-      <script src="https://d3js.org/d3.v3.min.js"></script>
-      <script src="https://d3js.org/topojson.v1.min.js"></script>
-      <!-- <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script> -->
-      <script src="https://cdn.rawgit.com/jashkenas/underscore/master/underscore-min.js"></script>
-      <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
-      <script src="https://s3-us-west-2.amazonaws.com/flippable/d3-core/js/map.tip.js"></script>
-      <!-- <script src="https://s3-us-west-2.amazonaws.com/flippable/d3-core/js/c3.min.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-core/css/map.css" />
+    <link rel="stylesheet" type="text/css" href="css/tip.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-styles/our-plan/tip.css" /> -->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://cdn.rawgit.com/jashkenas/underscore/master/underscore-min.js"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
+    <script src="https://s3-us-west-2.amazonaws.com/flippable/d3-core/js/map.tip.js"></script>
 
     <style>
       #mapSvg { 
@@ -134,11 +132,10 @@
         // var vector0 = void 0;
 
         var g = svg.append("g");
-        // https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/us.json
-        d3.json("us.json", function(unitedState) {
+        d3.json("https://s3-us-west-2.amazonaws.com/flippable/d3-core/spatial-jsons/us.json", function(unitedState) {
             var data = topojson.feature(unitedState, unitedState.objects.states).features;
             // console.log('geojson: ', data);
-            d3.csv("focus-data.csv", function(statesData) {
+            d3.csv("data/focus-data.csv", function(statesData) {
                 // console.log('statesData: ', statesData);
                 var names = {};
                 data.forEach(function(d, i) {

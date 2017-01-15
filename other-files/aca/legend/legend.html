@@ -1,120 +1,142 @@
-  <style type="text/css">
+<style type="text/css">
     .my-legend {
-      font-family: 'Gotham SSm A','Gotham SSm B','Gotham SSm','Proxima Nova','Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
-      /*400 normal 12px / 22px */
-      width: 60%;
-      /*height: 100px;*/
-      border: 1px solid #ddd;
-      padding: 12px;
-      box-shadow: 0 1px 6px rgba(0,0,0,.1);
-      border-radius: 4px;
-      position:relative;
-      /*top:50%;*/
-      left:50%;
-      padding:15px;
-      -ms-transform: translateX(-50%) translateY(0);
-      -webkit-transform: translate(-50%,0);
-      transform: translate(-50%,0);
+        font-family: 'Gotham SSm A', 'Gotham SSm B', 'Gotham SSm', 'Proxima Nova', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        /*400 normal 12px / 22px */
+        width: 75%;
+        /*height: 100px;*/
+        border: 1px solid #ddd;
+        padding: 12px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, .1);
+        border-radius: 4px;
+        position: relative;
+        /*top:50%;*/
+        left: 50%;
+        padding: 15px;
+        -ms-transform: translateX(-50%) translateY(0);
+        -webkit-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
     }
+    
     .legend-title {
-      margin-bottom: -15px;
-      margin-top: 0;
-      color: #666;
-      text-align: center;
+        margin-bottom: -15px;
+        margin-top: 0;
+        color: #666;
+        text-align: center;
     }
+    
     .legend-labels {
-      list-style: none;
-      text-transform: uppercase;
-      font-size: 10px;
-      color: #999;
-      margin-top: -7px;
-      margin-bottom: -7px;
-      padding-left: 12px;
-      width: 95%;
+        list-style: none;
+        text-transform: uppercase;
+        font-size: 10px;
+        color: #999;
+        margin-top: -7px;
+        margin-bottom: -7px;
+        padding-left: 12px;
+        width: 95%;
     }
+    
     .color-box {
-      display: inline-block;
-      content: "";
-      width: 12px;
-      height: 12px;
-      margin-right: 8px;
-      vertical-align: baseline;
-      border: 1px solid #C0C0C0;
+        display: inline-block;
+        content: "";
+        width: 12px;
+        height: 12px;
+        margin-right: 8px;
+        vertical-align: baseline;
+        border: 1px solid #C0C0C0;
     }
+    
     .color-box-small {
-      display: inline-block;
-      content: "";
-      width: 12px;
-      height: 12px;
-      margin-right: 8px;
-      vertical-align: baseline;
-      border: 1px solid #C0C0C0;
+        display: inline-block;
+        content: "";
+        width: 12px;
+        height: 12px;
+        margin-right: 8px;
+        vertical-align: baseline;
+        border: 1px solid #C0C0C0;
     }
+    
     .legend-source,
     .exclusion-info {
-      font-size: 12px;
-      color: #999;
-      margin-left: 11px;
-      margin-bottom: -10px;
+        font-size: 12px;
+        color: #999;
+        margin-left: 11px;
+        margin-bottom: 3px;
     }
-    .legend-source a { color: dodgerblue; }
-      
+    
+    .legend-source a {
+        color: dodgerblue;
+    }
+    
     .ramp-legend {
-      width: 95%;
+        width: 95%;
     }
+    
     .ramp-legend li {
-      display: inline;
-      float: left;
-      width: 20%;
+        display: inline;
+        float: left;
+        width: 20%;
     }
+    
     .ramp-legend .legend-labels:after {
-      content: "";
-      display: block;
-      clear: both;
+        content: "";
+        display: block;
+        clear: both;
     }
+    
     .ramp-legend .color-box {
-      display: block;
-      width: 99%;
-      border: 0;
-      margin-bottom: 4px;
-      border: 1px solid #C0C0C0;
+        display: block;
+        width: 99%;
+        border: 0;
+        margin-bottom: 4px;
+        border: 1px solid #C0C0C0;
     }
+    
     .ramp-legend .color-box-small {
-      display: block;
-      width: 80px;
-      border: 0;
-      margin-bottom: 4px;
+        display: block;
+        width: 80px;
+        border: 0;
+        margin-bottom: 4px;
     }
+    
     .ramp-legend .color-box {
-      border: 1px solid #C0C0C0;
-/*      border-bottom: 1px solid #C0C0C0;
-*/    }
+        border: 1px solid #C0C0C0;
+        /*      border-bottom: 1px solid #C0C0C0;
+*/
+    }
+    
     .ramp-legend li:first-child .color-box {
-      border-left: 1px solid #C0C0C0;
+        border-left: 1px solid #C0C0C0;
     }
+    
     .ramp-legend li:last-child .color-box {
-      border-right: 1px solid #C0C0C0;
+        border-right: 1px solid #C0C0C0;
     }
+    
     .label-text {
-      text-align: center;
+        text-align: center;
     }
+    
     .legend-scale {
-      width: 95%;
+        width: 95%;
     }
+    
     li {
-      margin-bottom: -2px;
+        margin-bottom: -2px;
     }
-  </style>
+</style>
 
 
 <div class="my-legend">
-  <h3 class="legend-title">Health Insurance Overview from 2012-2015</h3>
-  <div class="legend-scale">
-    <ul class="legend-labels">
-      <li><span class="color-box" style="background:#A1D76A;"></span><span class="label-text">State Expanded Medicaid</span></li>
-      <li><span class="color-box" style="background:#AF8DC3;"></span><span class="label-text">No Expansion</span></li>
-    </ul>
-    <p class="exclusion-info">States that supported the ACA through expanding Medicaid, overall, achieved larger percent increases of population insured. Hover over states for more information.</p>
-    <p class="legend-source">Source: <a href="http://kff.org/other/state-indicator/total-population/" target="_blank">Kaiser Family Foundation</a></p>
-  </div>
+    <h3 class="legend-title">Health Insurance Overview from 2012-2015</h3>
+    <div class="legend-scale">
+    
+        <ul class="legend-labels">
+        
+            <li><span class="color-box" style="background:#A1D76A;"></span><span class="label-text">State Expanded Medicaid</span></li>
+        
+            <li><span class="color-box" style="background:#AF8DC3;"></span><span class="label-text">No Expansion</span></li>
+            </ul>
+        <p class="exclusion-info">States that supported the ACA through expanding Medicaid, overall, achieved larger percent increases of population insured. (Hover over states for more info)</p>
+        <p class="legend-source">Source: <a href="http://kff.org/other/state-indicator/total-population/" target="_blank">Kaiser Family Foundation</a></p>
+    </div>
 </div>

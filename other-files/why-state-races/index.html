@@ -2,10 +2,8 @@
 <html>
 
 <head>
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/css/tip.css" />
-
-
+    <link rel="stylesheet" type="text/css" href="css/tip.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-styles/why-state-races/tip.css" /> -->
     <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-core/css/map.css" />
     <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-styles/our-plan/tip.css" />
     <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -130,7 +128,7 @@
 
         var g = svg.append("g");
 
-        d3.json("https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/us.json", function(unitedState) {
+        d3.json("https://s3-us-west-2.amazonaws.com/flippable/d3-core/spatial-jsons/us.json", function(unitedState) {
             var data = topojson.feature(unitedState, unitedState.objects.states).features;
             // console.log('geojson: ', data);
             d3.csv("https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/us-state-names.csv", function(statesData) {
