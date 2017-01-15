@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/flippable/la-map/master/other-files/v-4/css/map.css" />
+      <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-styles/our-plan/tip.css" />
+      <!-- <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/flippable/d3-core/css/c3.min.css" /> -->
+      <script src="https://d3js.org/d3.v3.min.js"></script>
+      <script src="https://d3js.org/topojson.v1.min.js"></script>
+      <!-- <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script> -->
+      <script src="https://cdn.rawgit.com/jashkenas/underscore/master/underscore-min.js"></script>
+      <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
+      <script src="https://s3-us-west-2.amazonaws.com/flippable/d3-core/js/map.tip.js"></script>
+      <!-- <script src="https://s3-us-west-2.amazonaws.com/flippable/d3-core/js/c3.min.js"></script> -->
+
+    <style>
+      #mapSvg { 
+        border-width:0; 
+      }
+      /* On mouse hover, lighten state color */
+      path:hover {
+        fill-opacity: .7;
+      }
+
+
+      /* Style for Custom Tooltip */
+      div.tooltip {   
+        position: absolute;           
+        text-align: center;           
+        width: 60px;                  
+        height: 28px;                 
+        padding: 2px;             
+        font: 12px sans-serif;        
+        background: white;   
+        border: 0px;      
+        border-radius: 8px;           
+        pointer-events: none;         
+      }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="template">
+
+        <!--Preview template-->
+        <div id="flippable" style="display: none;">
+            <div class="year">{name} - {year}</div>
+            <div class="sub">Race priorities:</div>
+            <div class="priorities">{governor}</div>
+            <div class="priorities">{state-senate}</div>
+            <div class="priorities">{state-house}</div>
+<!--             <div class="sub">Republican Marjority Margins:</div>
+            <div class="margins">State Senate: {senate-margin}</div>
+            <div class="margins">State House: {state-margin}</div>
+            <div class="sub">Notes:</div>
+            <div class="notes">{notes}</div> -->
+            <!-- <div class="link">(Click district for candidate info)</div>
+ --></div>
+    </div>
+    <script>
+        var width, height;
+        var viewportWidth = $(window.outerWidth)[0];
+        // var viewportHeight = $(window.outerHeight)[0] / 2;
+        // console.log(viewportWidth);
+        if (viewportWidth <= 767) {
+            width = $(window).width();
+            height = width / 1.5;
+        } else {
+            // Need to play around with this
+            if ($(window).width() > 800) {
+                width = 700;
+            } else {
+                width = $(window).width() * .97;
+            }
+            height = width / 1.5;
+        }
+        // console.log('viewportWidth', viewportWidth, 'width', width);
+        var _data = void 0;
+
+
+        var projection = d3.geo.albersUsa()
+            .translate([width / 2, height / 2]) // translate to center of screen
+            .scale([900]); // scale things down so see entire US
+
+        var path = d3.geo.path()
+            .projection(projection);
+
+
+        var svg = d3.select("#map")
+            .append("svg")
+            .attr("id", "mapSvg")
+            .attr("width", width)
+            .attr("height", height)
+            // .on("click", hideTip)
+            .append("g");
+
+        // Append Div for tooltip to SVG
+        var div = d3.select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        // svg.append("rect")
+        svg.append("div")
+            .attr("class", "background")
+            .attr("width", width)
+            .attr("height", height);
+        //    .on("click", clicked);
+
+        //Vector group
+        var vectors = svg.append("g")
+            .attr("class", "polygon");
+
+        //Overlay
+        vectors.append("rect")
+            .attr("class", "overlay")
+            .attr("width", width)
+            .attr("height", height);
+
+        //Define 'div' for tooltips
+        var tip = d3.tip()
+            .attr("class", "d3-tip")
+            .direction("c");
+        vectors.call(tip);
+
+        var previewTip = d3.tip()
+            .attr("class", "d3-preview-tip")
+            .direction("c");
+        vectors.call(previewTip);
+
+        // //Vector polygons
+        // var vectors0 = vectors.append("g");
+        // var vector0 = void 0;
+
+        var g = svg.append("g");
+        // https://cdn.rawgit.com/flippable/la-map/master/other-files/trifectas/us.json
+        d3.json("us.json", function(unitedState) {
+            var data = topojson.feature(unitedState, unitedState.objects.states).features;
+            // console.log('geojson: ', data);
+            d3.csv("focus-data.csv", function(statesData) {
+                // console.log('statesData: ', statesData);
+                var names = {};
+                data.forEach(function(d, i) {
+                    statesData.forEach(function(f, i) {
+                        if (f.id == d.id) {
+                            names[d.id] = f.code;
+                            d.properties = f;
+                        }
+                    });
+                });
+                // console.log(data);
+
+                // var object0 = data;
+                var previewTemplate = document.getElementById("flippable").innerHTML;
+
+                g.append("g")
+                    .attr("class", "states-bundle")
+                    .selectAll("path")
+                    .data(data)
+                    .enter()
+                    .append("path")
+                    .attr("d", path)
+                    .attr("stroke", "white")
+                    .attr("fill", function(d) {
+                        // console.log(d);
+                        if (d.properties.year == '2018') {
+                            return "#0868AC";
+                        } else if (d.properties.year == '2017') {
+                            return "#4EB3D3";
+                        } else {
+                            return "grey";
+                        }
+                    })
+                    .attr("class", "states")
+                    .on("mouseover", function(d) {
+                      if (d.properties.year) {
+                          var obj = _.findWhere(data, {
+                              id: d.id
+                          });
+                          var thisColor;
+                          if (d.properties.year == '2018') {
+                              thisColor = "#0868AC";
+                          } else if (d.properties.year == '2017') {
+                              thisColor = "#4EB3D3";
+                          } else {
+                              thisColor = "grey";
+                          }
+                          previewTip.html(infoMore(obj, previewTemplate));
+                          tip.attr('class', 'd3-tip').hide();
+                          return previewTip.show(d)
+                              .attr('class', 'd3-preview-tip animate ' + d.properties.d3Css)
+                              .style('color', thisColor);
+                            }
+                            else return;
+                    })
+                    .on("mouseout", function(d) {
+                        return previewTip.attr('class', 'd3-preview-tip').hide();
+                    });
+                // .on("click", function (d) { var obj = _.findWhere(_data, {OBJECTID: d.properties.OBJECTID.toString()}); console.log(obj); window.open(obj.cand_url,'_blank'); });
+
+                // g.append("g")
+                //   .attr("class", "states-names")
+                //   .selectAll("text")
+                //   .data(data)
+                //   .enter()
+                //   .append("svg:text")
+                //   .text(function(d) {
+                //     // console.log(d);
+                //     return names[d.id];
+                //   })
+                //   .attr("x", function(d) {
+                //     if (path.centroid(d)[0]) {
+                //       return path.centroid(d)[0];
+                //     }
+                //   })
+                //   .attr("y", function(d) {
+                //     if (path.centroid(d)[1]) {
+                //       return path.centroid(d)[1];
+                //     }
+                //   })
+                //   .attr("text-anchor", "middle")
+                //   .attr('fill', 'white');
+
+                function infoMore(obj, template) {
+
+                    Object.keys(obj).forEach(function(key) {
+                        if (key == 'properties') {
+                            Object.keys(obj[key]).forEach(function(meow) {
+                                template = template.replace("{" + meow + "}", obj[key][meow]);
+                            });
+                        }
+                    });
+
+                    return template;
+                }
+
+            });
+        });
+    </script>
+</body>
+
+</html>
